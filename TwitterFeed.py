@@ -12,9 +12,14 @@ class listener(StreamListener):
 
     def on_data(self, data):
         try:
-            print (data)
-            saveFile = open('twitdb.csv','a')
-            saveFile.write(data)
+            #print (data)
+            tweet = data.split(',"text":"')[1].split('","source')[0]
+            print tweet
+            #include unix timestamp or datestamp
+            saveThis = str(time.time())+ ':::' + tweet
+            
+            saveFile = open('twitdb2.csv','a')
+            saveFile.write(saveThis)
             saveFile.write('\n')
             saveFile.close()  
             return True
@@ -28,4 +33,4 @@ class listener(StreamListener):
 auth = OAuthHandler(ckey, csecret)
 auth.set_access_token(atoken, asecret)
 twitterStream = Stream(auth, listener())
-twitterStream.filter(track=["gilinsky"])
+twitterStream.filter(track=["economy"])
